@@ -1,0 +1,46 @@
+'use strict';
+
+const fs = require('fs');
+const lowdb = require('lowdb');
+const FileAsync = require('lowdb/adapters/FileAsync');
+
+const constants = require('../src/constants');
+
+async function init() {
+  if (fs.existsSync(constants.DB_PATH)) {
+    fs.unlinkSync(constants.DB_PATH);
+  }
+
+  const db = await lowdb(new FileAsync(constants.DB_PATH));
+
+  await db.defaults({
+    providers: [
+      { id: 'GI9_EuH8s1', name: 'Greg Man' },
+      { id: 'xRKSdjkBt4', name: 'Larry Man' },
+      { id: '0MUBKMu07U', name: 'Steven Man' },
+      { id: 'NLktii5zvK', name: 'Sally Woman' },
+      { id: 'SMyaT24g-N', name: 'Jane Woman' },
+      { id: 'DCenP4kQNQ', name: 'Karen Woman' }
+    ],
+    schedules: [
+      { id: 'OOWzUaHLsK', provider_id: 'GI9_EuH8s1', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T16:00:00.000Z' },
+      { id: 'sdmU7-wkQX', provider_id: 'xRKSdjkBt4', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T16:00:00.000Z' },
+      { id: 'aqekk3t4kw', provider_id: '0MUBKMu07U', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T16:00:00.000Z' }
+    ],
+    clients: [
+      { id: 'qdqsqfqssd', name: 'OOWzUaHLsK' },
+      { id: 'qweaFsldkf', name: 'OOWzUaHLsK' },
+      { id: 'sdmU7-wFQX', name: 'aqekk3t4kw' },
+      { id: 'aqekk3tFkw', name: 'aqekk3t4kw' }
+    ],
+    reservations: [
+      { id: 'OOWqw2HLsK', provider_id: 'GI9_EuH8s1', client_id: 'qdqsqfqssd', createDateTimeUTC: '2023-08-24T09:00:00.000Z', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T09:15:00.000Z', expirationDateTimeUTC: '2023-08-24T09:30:00.000Z', confirmed: true },
+      { id: 'sdmw4wwkQX', provider_id: 'xRKSdjkBt4', client_id: 'qweaFsldkf', createDateTimeUTC: '2023-08-24T09:00:00.000Z', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T09:15:00.000Z', expirationDateTimeUTC: '2023-08-24T09:30:00.000Z', confirmed: true },
+      { id: 'aqegw1t4kw', provider_id: '0MUBKMu07U', client_id: 'aqekk3tFkw', createDateTimeUTC: '2023-08-24T09:00:00.000Z', startDateTimeUTC: '2023-08-25T09:00:00.000Z', endDateTimeUTC: '2023-08-25T09:15:00.000Z', expirationDateTimeUTC: '2023-08-24T09:30:00.000Z', confirmed: false }
+    ]
+  }).write();
+}
+
+if (require.main === module) {
+  (async () => await init())();
+}
